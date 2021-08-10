@@ -18,8 +18,8 @@ class AuthorController extends Controller
     public function index(request $request)
     {
         $author = Authors::find($request->input('id'));
-        $books = $author->books;
-        return view('Author',['book' => $books, 'authors' =>$author]);
+        $books = my_books($author);
+        return view('Author',['author' => $author, 'books' =>$books]);
     }
 
     /**

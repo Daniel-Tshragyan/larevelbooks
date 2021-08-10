@@ -11,7 +11,7 @@
 <h1> Book Title : {{ $author->name }}</h1>
 <h3>Authors</h3>
 <ul>
-    @foreach($authors as $key => $value)
+    @foreach($books as $key => $value)
         <li>
             {{ $key }}
         </li>
