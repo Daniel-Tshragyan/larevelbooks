@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Authors;
-use App\Models\Books;
+use App\Models\Author;
+use App\Models\Book;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -15,8 +15,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $books = Books::all();
-        $authors = Authors::all();
+        $books = Book::all();
+        $authors = Author::all();
         return view('welcome', ['books' => $books, 'authors' => $authors]);
     }
 
@@ -55,10 +55,10 @@ class HomeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Authors $authors
+     * @param \App\Models\Author $authors
      * @return \Illuminate\Http\Response
      */
-    public function edit(Authors $authors)
+    public function edit(Author $authors)
     {
         //
     }
@@ -67,10 +67,10 @@ class HomeController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Authors $authors
+     * @param \App\Models\Author $authors
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Authors $authors)
+    public function update(Request $request, Author $authors)
     {
         //
     }
@@ -78,10 +78,10 @@ class HomeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Authors $authors
+     * @param \App\Models\Author $authors
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Authors $authors)
+    public function destroy(Author $authors)
     {
         //
     }

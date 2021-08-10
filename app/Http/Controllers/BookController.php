@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Authors;
-use App\Models\Books;
+use App\Models\Author;
+use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -25,9 +25,9 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, Books $book)
+    public function create(Request $request, Book $book)
     {
-        $authors = Authors::all();
+        $authors = Author::all();
         return view('createBook', ['authors' => $authors]);
 
     }
@@ -44,7 +44,7 @@ class BookController extends Controller
             'title' => ['required'],
             'authors' => ['required']
         ]);
-        $books = new Books();
+        $books = new Book();
         $books->fill(['title' => $request->input('title')]);
         $books->save();
         $books->authors()->attach($request->input('authors'));
@@ -57,7 +57,7 @@ class BookController extends Controller
      * @param \App\Models\Books $books
      * @return \Illuminate\Http\Response
      */
-    public function show(Books $book)
+    public function show(Book $book)
     {
         $authors = $book->authors->pluck('id', 'name')->toArray();
         return view('Book', ['book' => $book, 'authors' => $authors]);
@@ -69,9 +69,9 @@ class BookController extends Controller
      * @param \App\Models\Books $books
      * @return \Illuminate\Http\Response
      */
-    public function edit(Books $book)
+    public function edit(Book $book)
     {
-        $authors = Authors::all();
+        $authors = Author::all();
         $myauthors = $book->authors->pluck('id', 'name')->toArray();
         return view('changeBook', ['book' => $book, 'authors' => $authors, 'belongs' => $myauthors]);
     }
@@ -83,7 +83,7 @@ class BookController extends Controller
      * @param \App\Models\Books $books
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Books $book)
+    public function update(Request $request, Book $book)
     {
         $request->validate([
             'title' => ['required'],
@@ -100,7 +100,7 @@ class BookController extends Controller
      * @param \App\Models\Books $books
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $req, Books $book)
+    public function destroy(Request $req, Book $book)
     {
         $book->where('id', $req->input('id'))->delete();
         Session::flash('message', 'Book Deleted');

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Authors;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use PharIo\Manifest\Author;
 
 class AuthorController extends Controller
 {
@@ -42,7 +41,7 @@ class AuthorController extends Controller
         $request->validate([
             'name' => ['required']
         ]);
-        $author = new Authors();
+        $author = new Author();
         $author->fill(['name' => $request->input('name')]);
         $author->save();
         Session::flash('message', 'Author Added');
@@ -55,7 +54,7 @@ class AuthorController extends Controller
      * @param \App\Models\Authors $authors
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Authors $author)
+    public function show(Request $request, Author $author)
     {
         return view('Author', ['author' => $author]);
 
@@ -67,7 +66,7 @@ class AuthorController extends Controller
      * @param \App\Models\Authors $authors
      * @return \Illuminate\Http\Response
      */
-    public function edit(Authors $author)
+    public function edit(Author $author)
     {
         return view('changeUthor', ['author' => $author]);
     }
@@ -79,7 +78,7 @@ class AuthorController extends Controller
      * @param \App\Models\Authors $authors
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Authors $author)
+    public function update(Request $request, Author $author)
     {
         $request->validate([
             'name' => ['required']
@@ -96,7 +95,7 @@ class AuthorController extends Controller
      * @param \App\Models\Authors $authors
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Authors $authors, Request $req)
+    public function destroy(Author $authors, Request $req)
     {
         $authors::where('id', $req->input('id'))->delete();
         Session::flash('message', 'Author Deleted');

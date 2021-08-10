@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Books extends Model
+class Book extends Model
 {
     use HasFactory;
 
@@ -13,6 +13,6 @@ class Books extends Model
 
     public function authors()
     {
-        return $this->belongsToMany(Authors::class, BookAuthor::class, 'book_id', 'author_id');
+        return $this->belongsToMany(Author::class, BookAuthor::class, 'book_id', 'author_id');
     }
 }
