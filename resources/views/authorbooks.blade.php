@@ -10,22 +10,21 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-<h1> Book Title : {{ $book->title }}</h1>
-<h3>Authors</h3>
-<ul>
-    @foreach($authors as $key => $value)
-        <li>
-            {{ $key }}
-        </li>
-    @endforeach
-</ul>
-<form action="{{ route('book.destroy',['book' =>$book]) }}" method="post">
-    @csrf
-    @method('delete')
-    <button class="btn btn-danger" type="submit">remove</button>
-</form>
-<br>
-<button class="btn btn-danger"><a style="color:black" href="{{ route('book.edit',['book' =>$book])}}">Edit</a>
-</button>
+    <table class="table table-bordered">
+        <tr>
+            <td>id</td>
+            <td>title</td>
+        </tr>
+        @foreach($books as $key => $value)
+            <tr>
+                <td>
+                    {{ $value }}
+                </td>
+                <td>
+                    {{ $key }}
+                </td>
+            </tr>
+        @endforeach
+    </table>
 </body>
 </html>

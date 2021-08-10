@@ -17,9 +17,7 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
-        $book = Books::find($request->input('id'));
-        $authors = $book->authors->pluck('id','name')->toArray();
-        return view('Book',['book' => $book, 'authors' => $authors]);
+
     }
 
     /**
@@ -27,99 +25,84 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Books $books, Request $request)
+    public function create(Request $request, Books $book)
     {
-        $request->validate([
-            'title' => ['required'],
-            'authors' => ['required']
-        ]);
-        $id = $books->insertGetId(
-            ['title' => $request->input('title')]
-        );
-        $arr=[];
-        foreach($request->input('authors') as $author){
-            $arr[] =[
-                'book_id' => $id,
-                'author_id' =>$author
-            ];
-        }
-        DB::table('book_authors')->insert($arr);
-        return true;
+        $authors = Authors::all();
+        return view('createBook', ['authors' => $authors]);
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Books  $books
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Books $books, Request $request)
-    {
-        $book = $books::find($request->input('id'));
-
-        $authors = Authors::all();
-
-        $myauthors = $book->authors->pluck('id','name')->toArray();
-        return view('changeBook',['book' => $book, 'authors' => $authors, 'belongs' => $myauthors]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Books  $books
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Books $books)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Books  $books
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Books $books)
     {
         $request->validate([
             'title' => ['required'],
             'authors' => ['required']
         ]);
+        $books = new Books();
+        $books->fill(['title' => $request->input('title')]);
+        $books->save();
+        $books->authors()->attach($request->input('authors'));
+        return true;
+    }
 
-        $arr=[];
-        foreach($request->input('authors') as $author){
-            $arr[] =[
-                'book_id' => $request->input('id'),
-                'author_id' =>$author
-            ];
-        }
-        DB::table('book_authors')->where('book_id', $request->input('id'))->delete();
-        DB::table('book_authors')->insert($arr);
+    /**
+     * Display the specified resource.
+     *
+     * @param \App\Models\Books $books
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Books $book)
+    {
+        $authors = $book->authors->pluck('id', 'name')->toArray();
+        return view('Book', ['book' => $book, 'authors' => $authors]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param \App\Models\Books $books
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Books $book)
+    {
+        $authors = Authors::all();
+        $myauthors = $book->authors->pluck('id', 'name')->toArray();
+        return view('changeBook', ['book' => $book, 'authors' => $authors, 'belongs' => $myauthors]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Books $books
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Books $book)
+    {
+        $request->validate([
+            'title' => ['required'],
+            'authors' => ['required']
+        ]);
+        $book->update(['title' => $request->input('title')]);
+        $book->authors()->sync($request->input('authors'));
         return true;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Books  $books
+     * @param \App\Models\Books $books
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Books $books, Request $req)
+    public function destroy(Request $req, Books $book)
     {
-        $books::where('id', $req->input('id'))->delete();
+        $book->where('id', $req->input('id'))->delete();
         Session::flash('message', 'Book Deleted');
         return redirect('/');
 

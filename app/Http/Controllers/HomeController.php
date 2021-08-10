@@ -33,7 +33,7 @@ class HomeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -44,7 +44,7 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Authors  $authors
+     * @param \App\Models\Authors $authors
      * @return \Illuminate\Http\Response
      */
     public function show(Authors $authors)
@@ -55,7 +55,7 @@ class HomeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Authors  $authors
+     * @param \App\Models\Authors $authors
      * @return \Illuminate\Http\Response
      */
     public function edit(Authors $authors)
@@ -66,8 +66,8 @@ class HomeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Authors  $authors
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Authors $authors
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Authors $authors)
@@ -78,7 +78,7 @@ class HomeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Authors  $authors
+     * @param \App\Models\Authors $authors
      * @return \Illuminate\Http\Response
      */
     public function destroy(Authors $authors)

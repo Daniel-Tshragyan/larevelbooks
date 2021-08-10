@@ -11,7 +11,7 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-<h1 align="center"> Add Book</h1>
+<h1 align="center"> change Book</h1>
 <input type="hidden" class="token" value="{{@csrf_token()}}">
 <input type="text" name="title" value="{{ $book->title }}" placeholder="title" class=" title form-control">
 <p style="display:none" class="text-danger titleerr"></p>
@@ -20,9 +20,9 @@
     @foreach($authors as $author)
 
         <option value="{{ $author->id }}"
-            @if(array_key_exists($author->name, $belongs))
+                @if(array_key_exists($author->name, $belongs))
                 selected="selected"
-                @endif
+            @endif
         >{{ $author->name }}</option>
     @endforeach
 </select>
@@ -43,9 +43,8 @@
             var token = $(".token").val()
             var authors = $(".authors").val()
             var title = $(".title").val()
-            var id ={{ $book->id }}
             $.ajax({
-                url: "{{ route('editBooks') }}",
+                url: "{{ route('book.update', ['book' => $book]) }}",
                 type: "put",
                 data: {
                     title: title,

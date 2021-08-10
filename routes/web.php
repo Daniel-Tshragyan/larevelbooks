@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+    ;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,17 +15,5 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/book', [\App\Http\Controllers\BookController::class, 'index'])->name('book');
-Route::get('/changebook', [\App\Http\Controllers\BookController::class, 'show'])->name('changebook');
-Route::put('/editBooks', [\App\Http\Controllers\BookController::class, 'update'])->name('editBooks');
-Route::delete('/removebook', [\App\Http\Controllers\BookController::class, 'destroy'])->name('removebook');
-Route::get('/addbook', [\App\Http\Controllers\AuthorController::class, 'show'])->name('addBook');
-Route::post('/createBook', [\App\Http\Controllers\BookController::class, 'create'])->name('createBook');
-Route::get('/author', [\App\Http\Controllers\AuthorController::class, 'index'])->name('author');
-Route::put('/editAuthor', [\App\Http\Controllers\AuthorController::class, 'edit'])->name('editAuthor');
-Route::get('/changeauthor', [\App\Http\Controllers\AuthorController::class, 'update'])->name('changeauthor');
-Route::delete('/removeauthor', [\App\Http\Controllers\AuthorController::class, 'destroy'])->name('removeauthor');
-Route::get('/addAutor', function () {
-    return view('createAuthor');
-})->name('addAutor');
-Route::post('createAuthor', [\App\Http\Controllers\AuthorController::class, 'create'])->name('createAuthor');
+Route::resource('book', 'App\Http\Controllers\BookController');
+Route::resource('author', 'App\Http\Controllers\AuthorController');

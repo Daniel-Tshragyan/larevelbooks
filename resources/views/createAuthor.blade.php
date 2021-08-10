@@ -11,7 +11,7 @@
 </head>
 <body>
 <h1>Add Author</h1>
-<form action="{{ route('createAuthor') }}" method="post">
+<form action="{{ url('author') }}" method="post">
     @csrf
     <input type="text" name="name" class="form-control" placeholder="name">
     @if ($errors->has('name'))

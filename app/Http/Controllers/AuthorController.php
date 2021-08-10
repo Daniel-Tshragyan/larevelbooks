@@ -17,9 +17,7 @@ class AuthorController extends Controller
      */
     public function index(request $request)
     {
-        $author = Authors::find($request->input('id'));
-        $books = my_books($author);
-        return view('Author',['author' => $author, 'books' =>$books]);
+
     }
 
     /**
@@ -27,15 +25,9 @@ class AuthorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Authors $author, Request $request)
+    public function create()
     {
-        $request->validate([
-            'name' => ['required']
-        ]);
-        $author->name = $request->input('name');
-        $author->save();
-        Session::flash('message', 'Author Added');
-        return redirect('addAutor');
+        return view('createAuthor');
     }
 
     /**
@@ -47,6 +39,14 @@ class AuthorController extends Controller
     public function store(Request $request)
     {
 
+        $request->validate([
+            'name' => ['required']
+        ]);
+        $author = new Authors();
+        $author->fill(['name' => $request->input('name')]);
+        $author->save();
+        Session::flash('message', 'Author Added');
+        return redirect('author/create');
     }
 
     /**
@@ -55,10 +55,10 @@ class AuthorController extends Controller
      * @param \App\Models\Authors $authors
      * @return \Illuminate\Http\Response
      */
-    public function show(Authors $authors)
+    public function show(Request $request, Authors $author)
     {
-        $authors = Authors::all();
-        return view('createBook',['authors' => $authors]);
+        return view('Author', ['author' => $author]);
+
     }
 
     /**
@@ -67,15 +67,8 @@ class AuthorController extends Controller
      * @param \App\Models\Authors $authors
      * @return \Illuminate\Http\Response
      */
-    public function edit(Authors $authors, Request $request)
+    public function edit(Authors $author)
     {
-        $request->validate([
-            'name' => ['required']
-        ]);
-        $author = $authors::find($request->input('id'));
-        $author->name = $request->input('name');
-        $author->save();
-        Session::flash('message', 'Author Changed');
         return view('changeUthor', ['author' => $author]);
     }
 
@@ -86,10 +79,15 @@ class AuthorController extends Controller
      * @param \App\Models\Authors $authors
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Authors $authors)
+    public function update(Request $request, Authors $author)
     {
-        $author = $authors::find($request->input('id'));
-        return view('changeUthor', ['author' => $author]);
+        $request->validate([
+            'name' => ['required']
+        ]);
+        $author->fill(['name' => $request->input('name')]);
+        $author->save();
+        Session::flash('message', 'Author Changed');
+        return redirect("author/{$author->id}/edit");
     }
 
     /**

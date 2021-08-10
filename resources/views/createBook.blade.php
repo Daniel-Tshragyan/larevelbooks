@@ -39,7 +39,7 @@
             var authors = $(".authors").val()
             var title = $(".title").val()
             $.ajax({
-                url: "{{ route('createBook') }}",
+                url: "{{ route('book.store') }}",
                 type: "post",
                 data: {
                     title: title,
