@@ -15,10 +15,8 @@
 <br>
 <button class="btn btn-success cons" type="submit">Add Book</button>
 <p style="display:none" class="success text-success">Book Added</p>
+<script src="{{ asset('js/create-book.js') }}"></script>
 
 @endsection
 
-</body>
-<script src="{{ asset('js/create-book.js') }}"></script>
 
-</html>

@@ -10,6 +10,23 @@ use Illuminate\Support\Facades\Session;
 class AuthorController extends Controller
 {
 
+    public function index(Request $request)
+    {
+        $sorts = ['id'=>'id','name'=>'name'];
+        $order_by = 'id';
+        $how = 'asc';
+        if ($request->input("order_by")) {
+            $order_by = $request->input('order_by');
+        }
+
+        if ($request->input('how')) {
+            $how = $request->input('how');
+        }
+
+        $author = Author::orderBy($order_by, $how)->paginate(3);
+        $author->withPath("author?order_by={$order_by}&&how={$how}");
+        return view('books', ['books' => $author,'sorts'=>$sorts]);
+    }
 
     /**
      * Show the form for creating a new resource.

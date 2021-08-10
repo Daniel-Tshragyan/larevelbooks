@@ -9,11 +9,4 @@
         </li>
     @endforeach
 </ul>
-<form action="{{ route('book.destroy',['book' =>$book]) }}" method="post">
-    @csrf
-    @method('delete')
-    <button class="btn btn-danger" type="submit">remove</button>
-</form>
-<br>
-<button class="btn btn-danger"><a style="color:black" href="{{ route('book.edit',['book' =>$book])}}">Edit</a>
 @endsection

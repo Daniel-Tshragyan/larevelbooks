@@ -15,6 +15,23 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index(Request $request)
+    {
+        $sorts = ['id'=>'id','title'=>'title'];
+        $order_by = 'id';
+        $how = 'asc';
+        if ($request->input("order_by")) {
+            $order_by = $request->input('order_by');
+        }
+
+        if ($request->input('how')) {
+            $how = $request->input('how');
+        }
+
+        $book = Book::orderBy($order_by, $how)->paginate(3);
+        $book->withPath("book?order_by={$order_by}&&how={$how}");
+        return view('books', ['books' => $book,'sorts'=>$sorts]);
+    }
 
     /**
      * Show the form for creating a new resource.

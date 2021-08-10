@@ -5,7 +5,7 @@ $(document).ready(function () {
         var authors = $(".authors").val()
         var title = $(".title").val()
         $.ajax({
-            url: "book/store",
+            url: "/book",
             type: "post",
             data: {
                 title: title,
