@@ -30,7 +30,7 @@ class BookController extends Controller
 
         $book = Book::orderBy($order_by, $how)->paginate(3);
         $book->withPath("book?order_by={$order_by}&&how={$how}");
-        return view('books', ['books' => $book,'sorts'=>$sorts]);
+        return view('book.index', ['books' => $book,'sorts'=>$sorts]);
     }
 
     /**
@@ -41,7 +41,7 @@ class BookController extends Controller
     public function create(Request $request, Book $book)
     {
         $authors = Author::all();
-        return view('createBook', ['authors' => $authors]);
+        return view('book.create', ['authors' => $authors]);
 
     }
 
@@ -61,7 +61,8 @@ class BookController extends Controller
         $book->fill(['title' => $request->input('title')]);
         $book->save();
         $book->authors()->attach($request->input('authors'));
-        return true;
+        Session::flash('message', 'book Added');
+        return redirect()->route('book.index');
     }
 
     /**
@@ -73,7 +74,7 @@ class BookController extends Controller
     public function show(Book $book)
     {
         $authors = $book->authors->pluck('id', 'name')->toArray();
-        return view('Book', ['book' => $book, 'authors' => $authors]);
+        return view('book.show', ['book' => $book, 'authors' => $authors]);
     }
 
     /**
@@ -86,7 +87,7 @@ class BookController extends Controller
     {
         $authors = Author::all();
         $belongauthors = $book->authors->pluck('id', 'name')->toArray();
-        return view('changeBook', ['book' => $book, 'authors' => $authors, 'belongs' => $belongauthors]);
+        return view('book.update', ['book' => $book, 'authors' => $authors, 'belongs' => $belongauthors]);
     }
 
     /**
@@ -96,16 +97,16 @@ class BookController extends Controller
      * @param \App\Models\Books $books
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Book $book)
     {
         $request->validate([
             'title' => ['required'],
             'authors' => ['required']
         ]);
-        $book = Book::find($id);
         $book->update(['title' => $request->input('title')]);
         $book->authors()->sync($request->input('authors'));
-        return true;
+        Session::flash('message', 'book changed');
+        return redirect()->route('book.edit',['book' => $book]);
     }
 
     /**

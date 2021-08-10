@@ -25,7 +25,7 @@ class AuthorController extends Controller
 
         $author = Author::orderBy($order_by, $how)->paginate(3);
         $author->withPath("author?order_by={$order_by}&&how={$how}");
-        return view('books', ['books' => $author,'sorts'=>$sorts]);
+        return view('author.index', ['books' => $author,'sorts'=>$sorts]);
     }
 
     /**
@@ -35,7 +35,7 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        return view('createAuthor');
+        return view('author.create');
     }
 
     /**
@@ -65,7 +65,7 @@ class AuthorController extends Controller
      */
     public function show(Request $request, Author $author)
     {
-        return view('Author', ['author' => $author]);
+        return view('author.show', ['author' => $author]);
 
     }
 
@@ -77,7 +77,7 @@ class AuthorController extends Controller
      */
     public function edit(Author $author)
     {
-        return view('changeAuthor', ['author' => $author]);
+        return view('author.update', ['author' => $author]);
     }
 
     /**

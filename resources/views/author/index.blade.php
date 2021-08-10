@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('content')
     @foreach($sorts as $key => $val)
         <a style="margin:10px" href=

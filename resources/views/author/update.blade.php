@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('content')
 <h1 align="center">Change Author</h1>
 <form action="{{ route('author.update',['author' => $author]) }}" method="post">

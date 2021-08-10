@@ -17,7 +17,7 @@ class HomeController extends Controller
     {
         $books = Book::all();
         $authors = Author::all();
-        return view('welcome', ['books' => $books, 'authors' => $authors]);
+        return view('home.welcome', ['books' => $books, 'authors' => $authors]);
     }
 
     /**

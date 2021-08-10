@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('content')
 <h1> Book Title : {{ $book->title }}</h1>
 <h3>Authors</h3>
