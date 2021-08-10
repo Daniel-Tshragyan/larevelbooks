@@ -15,10 +15,6 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -44,10 +40,10 @@ class BookController extends Controller
             'title' => ['required'],
             'authors' => ['required']
         ]);
-        $books = new Book();
-        $books->fill(['title' => $request->input('title')]);
-        $books->save();
-        $books->authors()->attach($request->input('authors'));
+        $book = new Book();
+        $book->fill(['title' => $request->input('title')]);
+        $book->save();
+        $book->authors()->attach($request->input('authors'));
         return true;
     }
 
@@ -72,8 +68,8 @@ class BookController extends Controller
     public function edit(Book $book)
     {
         $authors = Author::all();
-        $myauthors = $book->authors->pluck('id', 'name')->toArray();
-        return view('changeBook', ['book' => $book, 'authors' => $authors, 'belongs' => $myauthors]);
+        $belongauthors = $book->authors->pluck('id', 'name')->toArray();
+        return view('changeBook', ['book' => $book, 'authors' => $authors, 'belongs' => $belongauthors]);
     }
 
     /**
@@ -83,12 +79,13 @@ class BookController extends Controller
      * @param \App\Models\Books $books
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'title' => ['required'],
             'authors' => ['required']
         ]);
+        $book = Book::find($id);
         $book->update(['title' => $request->input('title')]);
         $book->authors()->sync($request->input('authors'));
         return true;
@@ -102,7 +99,7 @@ class BookController extends Controller
      */
     public function destroy(Request $req, Book $book)
     {
-        $book->where('id', $req->input('id'))->delete();
+        $book->delete();
         Session::flash('message', 'Book Deleted');
         return redirect('/');
 

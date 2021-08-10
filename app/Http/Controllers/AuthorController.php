@@ -9,15 +9,7 @@ use Illuminate\Support\Facades\Session;
 
 class AuthorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(request $request)
-    {
 
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -68,7 +60,7 @@ class AuthorController extends Controller
      */
     public function edit(Author $author)
     {
-        return view('changeUthor', ['author' => $author]);
+        return view('changeAuthor', ['author' => $author]);
     }
 
     /**
@@ -95,9 +87,9 @@ class AuthorController extends Controller
      * @param \App\Models\Authors $authors
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Author $authors, Request $req)
+    public function destroy(Author $author, Request $req)
     {
-        $authors::where('id', $req->input('id'))->delete();
+        $author->delete();
         Session::flash('message', 'Author Deleted');
         return redirect('/');
     }
