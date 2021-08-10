@@ -3,6 +3,9 @@
 <h1 align="center"> Add Book</h1>
 <input type="hidden" class="token" value="{{@csrf_token()}}">
 <input type="text" name="title" placeholder="title" class=" title form-control">
+@if ($errors->has('title'))
+    <p class="text-danger">{{ $errors->first('title') }}</p>
+@endif
 <p style="display:none" class="text-danger titleerr"></p>
 
 <select name="authors" id="" class="authors form-control" multiple="multiple">
@@ -10,6 +13,9 @@
         <option value="{{ $author->id }}" >{{ $author->name }}</option>
     @endforeach
 </select>
+@if ($errors->has('authors'))
+    <p class="text-danger">{{ $errors->first('authors') }}</p>
+@endif
 <p style="display:none" class="text-danger autherr"></p>
 
 <br>
